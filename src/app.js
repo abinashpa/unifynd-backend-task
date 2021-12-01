@@ -7,6 +7,7 @@ require("dotenv").config();
 
 const indexRouter = require("./routes/index");
 const usersApiRouter = require("./routes/api/users");
+const expensesApiRouter = require("./routes/api/expenses");
 const { PrismaClient } = "@prisma/client";
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/api/users", usersApiRouter);
+app.use("/api/expenses", expensesApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
