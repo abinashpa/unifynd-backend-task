@@ -1,7 +1,10 @@
 const jwt = require("jsonwebtoken");
 
 function generateToken(uid) {
-  const token = jwt.sign({ uid: uid, exp: 10e3 }, process.env.JWT_SECRET);
+  const token = jwt.sign(
+    { uid: uid, iat: Math.floor(Date.now() / 1000) - 30 },
+    process.env.JWT_SECRET
+  );
 
   return token;
 }
