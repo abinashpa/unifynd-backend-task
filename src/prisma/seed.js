@@ -4,43 +4,6 @@ require("dotenv").config({ path: "../config/example.env" });
 async function seed() {
   prisma = new PrismaClient();
 
-  // const user = await prisma.user.create({
-  //   data: {
-  //     name: "Jon Doe",
-  //     email: "jon@example.com",
-  //     password: "qwerty",
-  //   },
-  // });
-
-  // const expense = await prisma.expense.createMany({
-  //   data: [
-  //     {
-  //       name: "LG TV",
-  //       price: 1000,
-  //       tax: {
-  //         create: {
-  //           data: {
-  //             central: 60,
-  //             state: 60,
-  //           },
-  //         },
-  //       },
-  //     },
-  //     {
-  //       name: "Samsung Fridge",
-  //       price: 1500,
-  //       tax: {
-  //         create: {
-  //           data: {
-  //             central: 90,
-  //             state: 90,
-  //           },
-  //         },
-  //       },
-  //     },
-  //   ],
-  // });
-
   const items = await prisma.item.createMany({
     data: [
       {
@@ -72,6 +35,45 @@ async function seed() {
         tax: 28,
         state: 14,
         center: 14,
+      },
+    ],
+  });
+
+  const user = await prisma.user.create({
+    data: {
+      name: "Jon Doe",
+      email: "jon@example.com",
+      password: "qwerty",
+    },
+  });
+
+  const expense = await prisma.expense.createMany({
+    data: [
+      {
+        userId = user.id,
+        name: "LG TV",
+        price: 1000,
+        tax: {
+          create: {
+            data: {
+              central: 60,
+              state: 60,
+            },
+          },
+        },
+      },
+      {
+        userId: user.id,
+        name: "Samsung Fridge",
+        price: 1500,
+        tax: {
+          create: {
+            data: {
+              central: 90,
+              state: 90,
+            },
+          },
+        },
       },
     ],
   });
