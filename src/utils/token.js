@@ -1,19 +1,13 @@
 const jwt = require("jsonwebtoken");
 
-async function generateToken(uid) {
-  const token = await jwt.sign(
-    { uid: uid, exp: 10e3 },
-    process.env.JWT_SECRET,
-    {
-      algorithm: "RS256",
-    }
-  );
+function generateToken(uid) {
+  const token = jwt.sign({ uid: uid, exp: 10e3 }, process.env.JWT_SECRET);
 
   return token;
 }
 
 function decodeToken(tokenString) {
-  const data = await jwt.verify(tokenString, process.env.JWT_SECRET);
+  const data = jwt.verify(tokenString, process.env.JWT_SECRET);
   return data.uid;
 }
 
