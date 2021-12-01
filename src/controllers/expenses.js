@@ -24,6 +24,17 @@ module.exports = {
   add: async (req, res, next) => {
     try {
       const { name, price, type } = req.body.expense;
+
+      const item = await prisma.item.findFirst({
+        where: {
+          name: type,
+        },
+      });
+
+      if (!item) {
+        res.json({ success: false, message: "type not found" });
+      }
+
       const expense = await prisma.expense.create({
         data: {
           userId: req.uid,
@@ -31,8 +42,8 @@ module.exports = {
           price: price,
           tax: {
             create: {
-              central: price * (9 / 100),
-              state: price * (9 / 100),
+              central: price * (item.center / 100),
+              state: price * (item.state / 100),
             },
           },
         },
@@ -40,6 +51,7 @@ module.exports = {
           tax: true,
         },
       });
+
       res.json({ success: true, expenses: expense });
     } catch (err) {
       next(err);
