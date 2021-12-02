@@ -6,7 +6,7 @@ backend assignment of unifynd.com
 ### Setup
 - You need Node.js v 16.13.0 and PostgreSQL installed on your system or you can use docker.
 
-1. create a .env file inside src folder and set values like below.
+1. Create a .env file inside src folder and set values like below.
 ```
 DB_URL=postgresql://root:password@localhost:5432/unifynd-api-test?schema=public
 JWT_SECRET=ultraSecretPassword
@@ -20,12 +20,17 @@ or
 yarn install
 ```
 
-3. seed basic data
+3. Migrate Prisma
+```bash
+npx prisma migrate dev --name init 
+```
+
+4. Seed basic data
 ```
 yarn seed
 ```
 
-4. to start the server
+5. To start the server
 ```bash
 yarn start
 ```
